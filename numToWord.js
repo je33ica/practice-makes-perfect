@@ -47,12 +47,6 @@ function numberToWords(num) {
     9: "ninty",
   };
 
-  //i realised that i didnt need this- it was adding an extra step
-  // const tripleToconvert = {
-  //   1: "hundred", //100
-  //   2: "thousand", //1000
-  //   3: "million", //1000,000
-  // };
   function separateTheNums(num) {
     let split = [...(num + "")].map((n) => +n);
     return split;
@@ -105,7 +99,7 @@ function numberToWords(num) {
 numberToWords(17);
 numberToWords(44);
 numberToWords(9);
-numberToWords(445);
+numberToWords(417);
 numberToWords(5234);
 
 // //this is a way to seperate the numbers- my first instinct was to parseInt but then we
