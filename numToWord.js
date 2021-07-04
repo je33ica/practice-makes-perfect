@@ -1,19 +1,10 @@
-//     input -> 123
-//     output -> one hundred and twenty three
-
-//create function takes a number
-//converts to english word for that number
-//max 999
-//1- 9
-//whole numbers
-//all positive
-
-// create function one input
-//returns a string - output
+//create function that takes a number and converts it to the english word for that number
+//min 1 - max 999 - added thousands
+//whole numbers, all positive
 
 function numberToWords(num) {
   //creating a dictionary of numbers to words
-  const singleToconvert = {
+  const lessThan20 = {
     1: "one",
     2: "two",
     3: "three",
@@ -24,8 +15,6 @@ function numberToWords(num) {
     8: "eight",
     9: "nine",
     10: "ten",
-  };
-  const teenToConvert = {
     11: "eleven",
     12: "twelve",
     13: "thirteen",
@@ -36,6 +25,7 @@ function numberToWords(num) {
     18: "eighteen",
     19: "nineteen",
   };
+
   const doubleToconvert = {
     2: "twenty",
     3: "thirty",
@@ -58,22 +48,24 @@ function numberToWords(num) {
     const singleNum = Math.floor(num / 10);
     //second num
     const doubleNum = num % 10;
-    const doubleDigits =
-      doubleToconvert[singleNum] + singleToconvert[doubleNum];
+    const doubleDigits = doubleToconvert[singleNum] + lessThan20[doubleNum];
     return doubleDigits;
   }
 
   //i refactored this so it would work for 1000's
   function hundreds(num) {
     let seperateNum = separateTheNums(num);
-    const first = singleToconvert[seperateNum[0]] + " hundred and ";
+    const first = lessThan20[seperateNum[0]] + " hundred and ";
     const doubleOfHun = [seperateNum[1]] + [seperateNum[2]];
-    hunConverted = first + doubleDigit(doubleOfHun);
+    //added this ternary becuase it wasnt working with the 'teens'
+    let checkForTeens =
+      doubleOfHun < 20 ? lessThan20[doubleOfHun] : doubleDigit(doubleOfHun);
+    hunConverted = first + checkForTeens;
     return hunConverted;
   }
   function thousands(num) {
     let seperateNum = separateTheNums(num);
-    const first = singleToconvert[seperateNum[0]] + " thousand, ";
+    const first = lessThan20[seperateNum[0]] + " thousand, ";
     //removed the 'hundreds' but it is an array- to use the hundreds function i need to pass it a number
     let thouRemoved = seperateNum.slice(1);
     let x = thouRemoved.join("");
@@ -81,12 +73,8 @@ function numberToWords(num) {
     return first + convertedhun;
   }
 
-  if (num <= 10) {
-    const lessThan10 = singleToconvert[num];
-    console.log(lessThan10);
-  } else if (num > 11 && num <= 19) {
-    const teens = teenToConvert[num];
-    console.log(teens);
+  if (num <= 19) {
+    console.log(lessThan20[num]);
   } else if (num > 20 && num <= 99) {
     console.log(doubleDigit(num));
   } else if (num > 99 && num <= 999) {
@@ -97,10 +85,10 @@ function numberToWords(num) {
 }
 
 numberToWords(17);
-numberToWords(44);
+numberToWords(415);
 numberToWords(9);
-numberToWords(417);
-numberToWords(5234);
+numberToWords(4417);
+numberToWords(9999);
 
 // //this is a way to seperate the numbers- my first instinct was to parseInt but then we
 // //would either have to convert back to nums or rely on type co-ersion-
@@ -129,7 +117,7 @@ numberToWords(5234);
 // (8) [NaN, NaN, NaN, 4, 5, NaN, NaN, NaN]
 
 // const seperateNum = [...(num + "")].map((n) => +n);
-// const fir = singleToconvert[seperateNum[0]] + " hundred and ";
+// const fir = lessThan20[seperateNum[0]] + " hundred and ";
 
 // return console.log("im the fir", fir, secondOfHun);
 
@@ -137,6 +125,6 @@ numberToWords(5234);
 
 //   const singleNum = Math.floor(num / 10);
 //   const doubleNum = num % 10;
-//   const doubleToWords = doubleToconvert[doubleNum] + singleToconvert[singleNum];
+//   const doubleToWords = doubleToconvert[doubleNum] + lessThan20[singleNum];
 
 //   return console.log("double fig", doubleToWords);
