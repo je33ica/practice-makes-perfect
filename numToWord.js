@@ -69,7 +69,7 @@ function numberToWords(num) {
     return doubleDigits;
   }
 
-  //i then refactored this so it would work for 1000's
+  //i refactored this so it would work for 1000's
   function hundreds(num) {
     let seperateNum = separateTheNums(num);
     const first = singleToconvert[seperateNum[0]] + " hundred and ";
@@ -79,11 +79,11 @@ function numberToWords(num) {
   }
   function thousands(num) {
     let seperateNum = separateTheNums(num);
-    const first = singleToconvert[seperateNum[0]] + " thousand,  ";
-    console.log("shoudl be the rest of the digits");
+    const first = singleToconvert[seperateNum[0]] + " thousand, ";
+    //removed the 'hundreds' but it is an array- to use the hundreds function i need to pass it a number
     let thouRemoved = seperateNum.slice(1);
-    console.log("sperated nums", [...thouRemoved]);
-    let convertedhun = hundreds(...thouRemoved);
+    let x = thouRemoved.join("");
+    let convertedhun = hundreds(x);
     return first + convertedhun;
   }
 
@@ -96,9 +96,9 @@ function numberToWords(num) {
   } else if (num > 20 && num <= 99) {
     console.log(doubleDigit(num));
   } else if (num > 99 && num <= 999) {
-    console.log("im the hundreds: ", hundreds(num));
+    console.log(hundreds(num));
   } else {
-    console.log("im the thous, ", thousands(num));
+    console.log(thousands(num));
   }
 }
 
