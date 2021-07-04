@@ -12,6 +12,7 @@
 //returns a string - output
 
 function numberToWords(num) {
+  //creating a dictionary of numbers to words
   const singleToconvert = {
     1: "one",
     2: "two",
@@ -45,55 +46,67 @@ function numberToWords(num) {
     8: "eighty",
     9: "ninty",
   };
+
+  //i realised that i didnt need this- it was adding an extra step
   // const tripleToconvert = {
   //   1: "hundred", //100
   //   2: "thousand", //1000
   //   3: "million", //1000,000
   // };
+  function separateTheNums(num) {
+    let split = [...(num + "")].map((n) => +n);
+    return split;
+  }
 
-  function secondDigit(num) {
+  //I made this a global function so it could be re-used
+  function doubleDigit(num) {
     //first num
-    let singleNum = Math.floor(num / 10);
+    const singleNum = Math.floor(num / 10);
     //second num
-    let doubleNum = num % 10;
-    let doubleDigits = doubleToconvert[singleNum] + singleToconvert[doubleNum];
-    console.log("im the doubel", doubleDigits);
+    const doubleNum = num % 10;
+    const doubleDigits =
+      doubleToconvert[singleNum] + singleToconvert[doubleNum];
     return doubleDigits;
   }
 
+  //i then refactored this so it would work for 1000's
+  function hundreds(num) {
+    let seperateNum = separateTheNums(num);
+    const first = singleToconvert[seperateNum[0]] + " hundred and ";
+    const doubleOfHun = [seperateNum[1]] + [seperateNum[2]];
+    hunConverted = first + doubleDigit(doubleOfHun);
+    return hunConverted;
+  }
+  function thousands(num) {
+    let seperateNum = separateTheNums(num);
+    const first = singleToconvert[seperateNum[0]] + " thousand,  ";
+    console.log("shoudl be the rest of the digits");
+    let thouRemoved = seperateNum.slice(1);
+    console.log("sperated nums", [...thouRemoved]);
+    let convertedhun = hundreds(...thouRemoved);
+    return first + convertedhun;
+  }
+
   if (num <= 10) {
-    let lessThan = singleToconvert[num];
-    console.log("less then 10", lessThan);
+    const lessThan10 = singleToconvert[num];
+    console.log(lessThan10);
   } else if (num > 11 && num <= 19) {
-    let teens = teenToConvert[num];
-    return console.log("teens", teens);
-
-    // } else if (num > 20 && num <= 99) {
-
-    //   let singleNum = Math.floor(num / 10);
-    //   let doubleNum = num % 10;
-    //   let doubleToWords = doubleToconvert[doubleNum] + singleToconvert[singleNum];
-
-    //   return console.log("double fig", doubleToWords);
+    const teens = teenToConvert[num];
+    console.log(teens);
   } else if (num > 20 && num <= 99) {
-    return console.log("im the second digit", secondDigit(num));
+    console.log(doubleDigit(num));
   } else if (num > 99 && num <= 999) {
-    let seperateNum = [...(num + "")].map((n) => +n);
-    // console.log("im the num", seperateNum);
-    let first = singleToconvert[seperateNum[0]] + " hundred and ";
-    // console.log("first", first);
-    let doubleOfHun = [seperateNum[1]] + [seperateNum[2]];
-    // console.log("im the sec", doubleOfHun);
-    // console.log("im the twenty", secondDigit(doubleOfHun));
-    console.log("total", first + secondDigit(doubleOfHun));
-    return;
+    console.log("im the hundreds: ", hundreds(num));
+  } else {
+    console.log("im the thous, ", thousands(num));
   }
 }
 
-//numberToWords(17);
-// numberToWords(44);
-//numberToWords(9);
+numberToWords(17);
+numberToWords(44);
+numberToWords(9);
 numberToWords(445);
+numberToWords(5234);
 
 // //this is a way to seperate the numbers- my first instinct was to parseInt but then we
 // //would either have to convert back to nums or rely on type co-ersion-
@@ -109,7 +122,7 @@ numberToWords(445);
 
 // //a shorter way to produce an array of single digit
 // // an Efficient use of the spread operater - stack overfolow
-// let num = 12345;[...num+'']
+// const num = 12345;[...num+'']
 // //at this point an array of strings is created
 // //["1", "2", "3", "4", "5"]
 // // we use .map and apply the + to the n - this will convert any type to a number
@@ -118,10 +131,18 @@ numberToWords(445);
 // .map(n => +n)
 
 // //example of using the + converting to a number
-// let words = 'jkk45jih';[...words+""].map(x=> +x)
+// const words = 'jkk45jih';[...words+""].map(x=> +x)
 // (8) [NaN, NaN, NaN, 4, 5, NaN, NaN, NaN]
 
-// let seperateNum = [...(num + "")].map((n) => +n);
-// let fir = singleToconvert[seperateNum[0]] + " hundred and ";
+// const seperateNum = [...(num + "")].map((n) => +n);
+// const fir = singleToconvert[seperateNum[0]] + " hundred and ";
 
 // return console.log("im the fir", fir, secondOfHun);
+
+// } else if (num > 20 && num <= 99) {
+
+//   const singleNum = Math.floor(num / 10);
+//   const doubleNum = num % 10;
+//   const doubleToWords = doubleToconvert[doubleNum] + singleToconvert[singleNum];
+
+//   return console.log("double fig", doubleToWords);
